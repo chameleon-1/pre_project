@@ -1,0 +1,14 @@
+com\new2310\preproject\repositiry\ClientRepository.class
+com\new2310\preproject\config\SchedulerConfig.class
+com\new2310\preproject\controller\ClientController.class
+com\new2310\preproject\PreprojectApplication.class
+com\new2310\preproject\repositiry\ClientRepository2.class
+com\new2310\preproject\dto\Client.class
+com\new2310\preproject\service\ClientServiceImpl.class
+com\new2310\preproject\controller\KafkaController.class
+com\new2310\preproject\model\ClientsINFO.class
+com\new2310\preproject\service\KafkaProducerService.class
+com\new2310\preproject\mapper\ClientMapper.class
+com\new2310\preproject\service\ClientService.class
+com\new2310\preproject\config\KafkaProducerConfig.class
+com\new2310\preproject\mapper\ClientMapperImpl.class
