@@ -9,12 +9,12 @@ create table if not exists ClientsINFO
     phone      varchar(255)
 
 );
--- CREATE TABLE IF NOT EXISTS Clients
--- (
---     id           SERIAL PRIMARY KEY,
---     full_name    VARCHAR(255),
---     birthday     DATE,
---     phone        VARCHAR(255),
---     message_send BOOLEAN,
---     FOREIGN KEY (id) REFERENCES ClientsINFO (Id)
--- );
+CREATE TABLE IF NOT EXISTS Clients
+(
+    id           SERIAL PRIMARY KEY,
+    full_name    VARCHAR(255),
+    birthday     DATE,
+    phone        VARCHAR(255),
+    message_send BOOLEAN,
+    FOREIGN KEY (id) REFERENCES ClientsINFO (Id)
+);

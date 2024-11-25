@@ -7,8 +7,7 @@ import java.util.List;
 public interface ClientService {
     List<ClientsINFO> getAllClients();
 
-    List<ClientsINFO> getClientWithFilter();
-
     ClientsINFO getClient(int id);
 
+    void convertAndSaveDto();
 }
