@@ -1,0 +1,114 @@
+openapi: 3.0.0
+info:
+  title: Пет-проект
+  description: |- 
+    Сервис-адаптер, выполняющий средующие задачи:
+    
+    1) по расписанию получает информацию о клинентах
+    
+    2) фильтрует информацию по двум параметрам
+    
+    3) отправляетм смс-сообщение и сохраняет информацию о клиенте
+
+  version: 0.0.1
+servers:
+  - url: http://localhost:8081/api/v1/
+paths:
+  /clients:
+    get:
+      summary: Метод получения всех клиентов
+      tags:
+        - Clients
+      operationId: getAllClients
+      responses:
+        '200':
+          description: Успешный ответ со списком клиентов
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Clients"
+        'default':
+          description: Нестандартная ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /clients/{id}:
+    get:
+      summary: Метод получения клиента по id
+      tags:
+        - Clients
+      operationId: getClient
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id клиента
+          schema:
+            type: integer
+            example: 7
+      responses:
+        '200':
+          description: Успешный ответ с одним клиентов
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+        '404':
+          description: Клиент не найден
+        'default':
+          description: все нестандартное
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+            
+            
+            
+components:
+  schemas:
+    Client:
+      type: object
+      required: 
+        - name
+        - middlename
+        - surname
+        - age
+        - phone
+        - birthday
+      properties:
+         id:
+          type: integer
+          example: 7
+         name:
+          type: string
+          example: Artem
+         middlename:
+          type: string
+          example: Artemovich
+         surname:
+          type: string
+          example: Artemov
+         age:
+          type: integer
+          example: 20
+         phone:
+          type: string 
+          example: 34567
+         birthday:
+          type: string
+          example: 1999-11-22
+    Clients:
+      type: array
+      items:
+        $ref: "#/components/schemas/Client"
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+        message:
+          type: string

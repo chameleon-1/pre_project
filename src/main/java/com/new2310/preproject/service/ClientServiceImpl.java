@@ -3,13 +3,12 @@ package com.new2310.preproject.service;
 import com.new2310.preproject.dto.Client;
 import com.new2310.preproject.mapper.ClientMapper;
 import com.new2310.preproject.model.ClientsINFO;
-import com.new2310.preproject.repositiry.ClientRepository;
-import com.new2310.preproject.repositiry.ClientRepository2;
+import com.new2310.preproject.jpa.ClientRepository;
+import com.new2310.preproject.jpa.ClientRepository2;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,7 +43,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientsINFO getClient(int id) {
-        return clientRepository.getOne(id);
+    public ClientsINFO getClients(int id) {
+        return clientRepository.getReferenceById(id);
     }
 }

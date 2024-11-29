@@ -4,20 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-
-import java.util.Date;
+import java.time.LocalDate;
 
 @RequiredArgsConstructor
 @Entity
 @Data
 @Table(name = "ClientsINFO")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})          //исправляет ошибку 500, но почему?
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ClientsINFO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
-    private int id;                                                     //не работает со стрингой
+    private int id;
 
     @Column(name = "name")
     private String name;
@@ -35,5 +34,5 @@ public class ClientsINFO {
     private String phone;
 
     @Column(name = "birthday")
-    private Date birthday;
+    private LocalDate birthday;
 }

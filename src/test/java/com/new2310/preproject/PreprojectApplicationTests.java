@@ -9,5 +9,4 @@ class PreprojectApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }
