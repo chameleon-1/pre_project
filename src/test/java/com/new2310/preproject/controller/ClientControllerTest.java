@@ -2,31 +2,33 @@ package com.new2310.preproject.controller;
 
 import com.new2310.preproject.model.ClientsINFO;
 import com.new2310.preproject.service.ClientService;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import java.util.Arrays;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+
 import static org.mockito.Mockito.*;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 public class ClientControllerTest {
-
     @Mock
     private ClientService clientService;
-
     @InjectMocks
     private ClientController clientController;
-
     private MockMvc mockMvc;
 
     @BeforeEach
@@ -35,49 +37,40 @@ public class ClientControllerTest {
     }
 
     @Test
-    void getClientById() throws Exception {
-        ClientsINFO client = new ClientsINFO();
-        client.setId(5);
-        client.setName("semen");
-        client.setMiddleName("semenovich");
-        client.setSurname("semenov");
-        client.setPhone("2345678");
-        client.setAge(20);
-
-        when(clientService.getClients(5)).thenReturn(client);
-        mockMvc.perform(get("/api/v1/client/{id}", 5))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(5))
-                .andExpect(jsonPath("$.name").value("semen"))
-                .andExpect(jsonPath("$.middleName").value("semenovich"))
-                .andExpect(jsonPath("$.surname").value("semenov"))
-                .andExpect(jsonPath("$.age").value(20))
-                .andExpect(jsonPath("$.phone").value("2345678"));
-        verify(clientService, times(1)).getClients(5);
+    void testGetAllClients() throws Exception {
+        ClientsINFO clientsINFO = new ClientsINFO();
+        List<ClientsINFO> clients = new ArrayList<>();
+        clients.add(clientsINFO);
+        when(clientService.getAllClients()).thenReturn(clients);
+        mockMvc.perform(get("/api/v1/clients").contentType(APPLICATION_JSON))
+                .andExpect(status().isOk());
+        Mockito.verify(clientService, times(1)).getAllClients();
     }
 
     @Test
-    void getAllClients() throws Exception {
-        ClientsINFO client1 = new ClientsINFO();
-        client1.setId(5);
-        client1.setName("semen");
-        client1.setMiddleName("semenovich");
+    void testGetClientById() throws Exception {
+        int id = 1;
+        ClientsINFO client = new ClientsINFO();
+        client.setId(id);
+        client.setName("testName");
+        client.setMiddleName("testMiddleName");
+        client.setSurname("testSurname");
+        client.setPhone("123456");
+        client.setBirthday(LocalDate.of(1999, 11, 22));
+        client.setAge(25);
 
-        ClientsINFO client2 = new ClientsINFO();
-        client2.setId(3);
-        client2.setName("ibragim");
-        client2.setMiddleName("ibragimovich");
+        when(clientService.getClients(id)).thenReturn(client);
 
-        List<ClientsINFO> clients = Arrays.asList(client1, client2);
+        mockMvc.perform(get("/api/v1/clients/{id}", id).contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(id))
+                .andExpect(jsonPath("$.name").value("testName"))
+                .andExpect(jsonPath("$.middleName").value("testMiddleName"))
+                .andExpect(jsonPath("$.surname").value("testSurname"))
+                .andExpect(jsonPath("$.phone").value("123456"))
+//                .andExpect(jsonPath("$.birthday").value(LocalDate.of(1999, 11, 22)))
+                .andExpect(jsonPath("$.age").value(25));
 
-        when(clientService.getAllClients()).thenReturn(clients);
-        mockMvc.perform(get("/api/v1/clients"))
-                .andExpect(status().isOk());
-        Assertions.assertEquals(2, clients.size());
-        Assertions.assertEquals("semen", clients.get(0).getName());
-        Assertions.assertEquals("semenovich", clients.get(0).getMiddleName());
-        Assertions.assertEquals("ibragim", clients.get(1).getName());
-        Assertions.assertEquals("ibragimovich", clients.get(1).getMiddleName());
-        verify(clientService, times(1)).getAllClients();
+        verify(clientService, times(1)).getClients(id);
     }
 }
